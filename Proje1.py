@@ -67,4 +67,3 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')  # Korelasyon matri
 plt.title('Correlation Matrix')  # Grafiğe başlık ekle
 plt.show()  # Grafiği göster
 print("\n")
-
