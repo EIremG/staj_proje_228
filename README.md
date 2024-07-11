@@ -144,6 +144,8 @@ Sonuçlar ve Öneriler
 
 Bu proje, bitki büyüme koşullarını analiz etmek için kapsamlı bir başlangıç noktası sağlamaktadır. Elde edilen bulgular, tarım endüstrisinde bitki yetiştirme tekniklerinin geliştirilmesi ve optimize edilmesi için önemli bir temel oluşturabilir. İleriye yönelik çalışmalarda, daha fazla parametrenin dikkate alınması ve farklı büyüme koşullarının analiz edilmesi önerilmektedir.
 
+![download (6)](https://github.com/EIremG/staj_proje_228/assets/137067262/3d0d0761-f517-429c-a295-9cf73c24ded6)
+
 Katkıda Bulunma
 --------------------------
 
