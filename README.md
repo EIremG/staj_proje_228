@@ -71,7 +71,9 @@ Projeyi çalıştırmak için aşağıdaki adımları izleyin:
    data = pd.read_csv(file_path)
 
   `import pandas as pd`: Pandas kütüphanesini pd takma adıyla içe aktarır.
+  
   `file_path = 'plant_growth_data.csv'`: Veri setinin dosya yolunu belirtir.
+  
   `data = pd.read_csv(file_path)`: Belirtilen dosya yolundan CSV dosyasını okur ve bir DataFrame'e yükler.
 
 2. Eksik Değerlerin Kontrolü
@@ -83,7 +85,9 @@ Projeyi çalıştırmak için aşağıdaki adımları izleyin:
    print(missing_values)
 
   `missing_values = data.isnull().sum()`: Her sütundaki eksik değerlerin sayısını hesaplar.
+  
   `print("Missing values in each column:")`: Kolonlardaki eksik değerlerin sayısını ekrana yazdırır.
+  
   `print(missing_values)`: Eksik değerlerin sayısını ekrana yazdırır.
 
 3. Temel İstatistiklerin Hesaplanması
@@ -95,7 +99,9 @@ Projeyi çalıştırmak için aşağıdaki adımları izleyin:
    print(basic_stats)
 
   `basic_stats = data.describe(include='all')`: Tüm sütunların temel istatistiklerini hesaplar ve bir DataFrame döndürür.
+  
   `print("\nBasic statistics of the dataset:")`: Temel istatistiklerin başlığını ekrana yazdırır.
+  
   `print(basic_stats)`: Temel istatistikleri ekrana yazdırır.
 
 4. Kategorik Verilerin Görselleştirilmesi
@@ -121,11 +127,17 @@ Projeyi çalıştırmak için aşağıdaki adımları izleyin:
    plt.show()
 
   `import seaborn as sns`: Seaborn kütüphanesini sns takma adıyla içe aktarır.
+  
   `import matplotlib.pyplot as plt`: Matplotlib kütüphanesini plt takma adıyla içe aktarır.
+  
   `plt.figure(figsize=(10, 6))`: Grafik boyutlarını ayarlar.
+  
   `sns.countplot(x='Soil_Type', data=data)`: Soil_Type sütununun frekans dağılımını çubuk grafiği olarak çizer.
+  
   `plt.title('Soil Type Distribution')`: Grafiğe başlık ekler.
+  
   `plt.show()`: Grafiği görüntüler.
+  
    Aynı adımlar Water_Frequency ve Fertilizer_Type sütunları için de tekrarlanır.
 
 5. Sayısal Verilerin Görselleştirilmesi
@@ -148,9 +160,13 @@ Projeyi çalıştırmak için aşağıdaki adımları izleyin:
    plt.show()
 
   `plt.figure(figsize=(10, 6))`: Grafik boyutlarını ayarlar.
+  
   `sns.histplot(data['Sunlight_Hours'], bins=10, kde=True)`: Sunlight_Hours sütununun histogramını çizer ve KDE (yoğunluk tahmin eğrisi) ekler.
+  
   `plt.title('Distribution of Sunlight Hours')`: Grafiğe başlık ekler.
-  `plt.show()`: Grafiği görüntüler.
+  
+  `plt.show()`: Grafiği görüntüler
+  
    Aynı adımlar Temperature ve Humidity sütunları için de tekrarlanır.
 
 6. Korelasyon Analizi
@@ -166,10 +182,15 @@ Projeyi çalıştırmak için aşağıdaki adımları izleyin:
    plt.show()
 
   `numeric_data = data[['Sunlight_Hours', 'Temperature', 'Humidity', 'Growth_Milestone']]`: Sayısal sütunları seçer.
+  
   `correlation_matrix = numeric_data.corr()`: Seçilen sütunların korelasyon matrisini hesaplar.
+  
   `plt.figure(figsize=(10, 6))`: Grafik boyutlarını ayarlar.
+  
   `sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')`: Korelasyon matrisini ısı haritası olarak çizer ve değerleri ekler.
+  
   `plt.title('Correlation Matrix')`: Grafiğe başlık ekler.
+  
   `plt.show()`: Grafiği görüntüler.
 
 Sonuçlar ve Öneriler
