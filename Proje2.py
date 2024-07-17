@@ -1,3 +1,5 @@
+import tkinter as tk
+from tkinter import messagebox, ttk
 
 class Item:
     def __init__(self, name, quantity, price):
@@ -9,7 +11,7 @@ class Item:
 
     def __str__(self):
         # Bu fonksiyon, Item nesnesi string olarak temsil edildiğinde nasıl görüneceğini tanımlar.
-        return f"Item(name={self.name}, quantity={self.quantity}, price={self.price})"
+        return f"{self.name}: {self.quantity} adet, {self.price:.2f} TL"
 
 class Inventory:
     def __init__(self):
@@ -34,7 +36,7 @@ class Inventory:
             self.items[name].price = price
         else:
             # Eğer öğe envanterde yoksa, kullanıcıya öğenin bulunamadığını bildirir.
-            print(f"Item '{name}' not found in inventory.")
+            messagebox.showerror("Hata", f"Item '{name}' envanterde bulunamadı.")
 
     def remove_item(self, name):
         # Envanterden bir öğeyi kaldırır.
@@ -43,73 +45,96 @@ class Inventory:
             del self.items[name]
         else:
             # Eğer öğe envanterde yoksa, kullanıcıya öğenin bulunamadığını bildirir.
-            print(f"Item '{name}' not found in inventory.")
+            messagebox.showerror("Hata", f"Item '{name}' envanterde bulunamadı.")
 
     def list_items(self):
         # Envanterdeki tüm öğeleri listeler.
-        for item in self.items.values():
-            # Her bir öğeyi ekrana yazdırır.
-            print(item)
-
-def main():
-    # Inventory sınıfından bir nesne oluşturur.
-    inventory = Inventory()
-    while True:
-        # Kullanıcı menüsü ve seçenekler.
-        print("\nEnvanter Yönetim Sistemi")
-        print("1. Öğeyi Ekle")
-        print("2. Öğeyi Güncelle")
-        print("3. Öğeyi Kaldır")
-        print("4. Envanteri Listele")
-        print("5. Çıkış")
-        choice = input("Seçiminiz: ")
-
-        if choice == '1':
-            # Kullanıcıdan öğe bilgilerini alır ve envantere ekler.
-            name = input("Öğe Adı: ")
-            quantity = int(input("Miktar: "))
-            price = float(input("Fiyat: "))
-            inventory.add_item(name, quantity, price)
-        elif choice == '2':
-            # Kullanıcıdan güncellenmiş öğe bilgilerini alır ve envanteri günceller.
-            name = input("Öğe Adı: ")
-            quantity = int(input("Yeni Miktar: "))
-            price = float(input("Yeni Fiyat: "))
-            inventory.update_item(name, quantity, price)
-        elif choice == '3':
-            # Kullanıcıdan öğe adını alır ve envanterden kaldırır.
-            name = input("Öğe Adı: ")
-            inventory.remove_item(name)
-        elif choice == '4':
-            # Envanterdeki tüm öğeleri listeler.
-            inventory.list_items()
-        elif choice == '5':
-            # Programdan çıkar.
-            break
+        items_str = "\n".join(str(item) for item in self.items.values())
+        if items_str:
+            # Eğer envanterde öğeler varsa, kullanıcıya gösterir.
+            messagebox.showinfo("Envanter", items_str)
         else:
-            # Geçersiz seçim yapıldığında kullanıcıyı uyarır.
-            print("Geçersiz seçim. Lütfen tekrar deneyin.")
+            # Eğer envanter boşsa, kullanıcıya bildirir.
+            messagebox.showinfo("Envanter", "Envanter boş.")
 
-# Program bu dosya olarak çalıştırıldığında main fonksiyonunu çağırır.
+class InventoryApp:
+    def __init__(self, root):
+        # InventoryApp sınıfının yapıcı (constructor) fonksiyonu.
+        # Inventory sınıfından bir nesne oluşturur ve Tkinter ana penceresini başlatır.
+        self.inventory = Inventory()
+
+        self.root = root
+        self.root.title("Envanter Yönetim Sistemi")
+        self.root.geometry("500x400")  # Pencere boyutunu ayarlar.
+        self.root.resizable(False, False)  # Pencerenin boyutunun değiştirilememesini sağlar.
+
+        # Stil ve fontları ayarlar.
+        self.style = ttk.Style()
+        self.style.configure("TLabel", font=("Helvetica", 14))
+        self.style.configure("TButton", font=("Helvetica", 12))
+
+        # Öğe Adı etiketi ve giriş alanı.
+        self.name_label = ttk.Label(root, text="Öğe Adı")
+        self.name_label.grid(row=0, column=0, padx=10, pady=10, sticky="W")
+        self.name_entry = ttk.Entry(root, font=("Helvetica", 14))
+        self.name_entry.grid(row=0, column=1, padx=10, pady=10, sticky="EW")
+
+        # Miktar etiketi ve giriş alanı.
+        self.quantity_label = ttk.Label(root, text="Miktar")
+        self.quantity_label.grid(row=1, column=0, padx=10, pady=10, sticky="W")
+        self.quantity_entry = ttk.Entry(root, font=("Helvetica", 14))
+        self.quantity_entry.grid(row=1, column=1, padx=10, pady=10, sticky="EW")
+
+        # Fiyat etiketi ve giriş alanı.
+        self.price_label = ttk.Label(root, text="Fiyat")
+        self.price_label.grid(row=2, column=0, padx=10, pady=10, sticky="W")
+        self.price_entry = ttk.Entry(root, font=("Helvetica", 14))
+        self.price_entry.grid(row=2, column=1, padx=10, pady=10, sticky="EW")
+
+        # Öğe Ekle düğmesi.
+        self.add_button = ttk.Button(root, text="Öğe Ekle", command=self.add_item)
+        self.add_button.grid(row=3, column=0, padx=10, pady=10)
+
+        # Öğe Güncelle düğmesi.
+        self.update_button = ttk.Button(root, text="Öğe Güncelle", command=self.update_item)
+        self.update_button.grid(row=3, column=1, padx=10, pady=10)
+
+        # Öğe Kaldır düğmesi.
+        self.remove_button = ttk.Button(root, text="Öğe Kaldır", command=self.remove_item)
+        self.remove_button.grid(row=4, column=0, padx=10, pady=10)
+
+        # Envanteri Listele düğmesi.
+        self.list_button = ttk.Button(root, text="Envanteri Listele", command=self.list_items)
+        self.list_button.grid(row=4, column=1, padx=10, pady=10)
+
+    def add_item(self):
+        # Kullanıcıdan alınan bilgilerle envantere öğe ekler.
+        name = self.name_entry.get()
+        quantity = int(self.quantity_entry.get())
+        price = float(self.price_entry.get())
+        self.inventory.add_item(name, quantity, price)
+        messagebox.showinfo("Başarılı", f"{name} eklendi.")
+
+    def update_item(self):
+        # Kullanıcıdan alınan bilgilerle envanterdeki öğeyi günceller.
+        name = self.name_entry.get()
+        quantity = int(self.quantity_entry.get())
+        price = float(self.price_entry.get())
+        self.inventory.update_item(name, quantity, price)
+        messagebox.showinfo("Başarılı", f"{name} güncellendi.")
+
+    def remove_item(self):
+        # Kullanıcıdan alınan bilgiyle envanterden öğe kaldırır.
+        name = self.name_entry.get()
+        self.inventory.remove_item(name)
+        messagebox.showinfo("Başarılı", f"{name} kaldırıldı.")
+
+    def list_items(self):
+        # Envanterdeki tüm öğeleri listeler.
+        self.inventory.list_items()
+
 if __name__ == "__main__":
-    main()
-
-def test_inventory():
-    # Inventory sınıfından bir nesne oluşturur.
-    inventory = Inventory()
-
-    # Envantere öğeler ekler ve listeyi gösterir.
-    inventory.add_item("Elma", 10, 1.5)
-    inventory.add_item("Armut", 5, 2.0)
-    inventory.list_items()
-
-    # Öğeyi günceller ve listeyi gösterir.
-    inventory.update_item("Elma", 20, 1.4)
-    inventory.list_items()
-
-    # Öğeyi kaldırır ve listeyi gösterir.
-    inventory.remove_item("Armut")
-    inventory.list_items()
-
-# test_inventory fonksiyonunu çalıştırır.
-test_inventory()
+    # Tkinter ana penceresini oluşturur ve InventoryApp'i başlatır.
+    root = tk.Tk()
+    app = InventoryApp(root)
+    root.mainloop()
